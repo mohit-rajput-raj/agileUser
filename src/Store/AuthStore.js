@@ -3,7 +3,7 @@ import { axiosApi } from "../library/axios.js";
 import { io } from "socket.io-client";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || BACKEND_URL?.replace(/\/api\/?$/, "");
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || BACKEND_URL;
 
 export const useAuthStore = create((set, get) => ({
   isLogin: false,
