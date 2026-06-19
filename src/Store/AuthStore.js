@@ -2,8 +2,7 @@ import { create } from "zustand";
 import { axiosApi } from "../library/axios.js";
 import { io } from "socket.io-client";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const useAuthStore = create((set, get) => ({
   isLogin: false,
@@ -96,9 +95,9 @@ export const useAuthStore = create((set, get) => ({
 
   connectSocket: () => {
     const { currUser } = get();
-    if (!currUser || get().socket?.connected || !SOCKET_URL) return;
+    if (!currUser || get().socket?.connected) return;
 
-    const socket = io(SOCKET_URL, {
+    const socket = io(BASE_URL, {
       query: {
         userId: currUser._id,
       },
