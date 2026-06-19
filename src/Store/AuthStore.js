@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { axiosApi } from "../library/axios.js";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000/api" : "/api";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || BACKEND_URL?.replace(/\/api\/?$/, "");
 
 export const useAuthStore = create((set, get) => ({
   isLogin: false,
@@ -95,9 +96,9 @@ export const useAuthStore = create((set, get) => ({
 
   connectSocket: () => {
     const { currUser } = get();
-    if (!currUser || get().socket?.connected) return;
+    if (!currUser || get().socket?.connected || !SOCKET_URL) return;
 
-    const socket = io(BASE_URL, {
+    const socket = io(SOCKET_URL, {
       query: {
         userId: currUser._id,
       },
