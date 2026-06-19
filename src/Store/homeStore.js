@@ -27,7 +27,7 @@ export const useHomeStore = create((set) => ({
     try {
       set({ searchBarDataLoading: true, searchBarDataError: null, searchedUsers: [] });
 
-      const res = await axiosApi.get(`/home/searchPerson?query=${query}`);
+      const res = await axiosApi.get(`/home/searchperson?query=${query}`);
 
       set({ searchedUsers: res.data || [] });
     } catch (error) {
@@ -51,7 +51,7 @@ export const useHomeStore = create((set) => ({
   },
   doReport:async(userId)=>{
     try {
-      const res = await axiosApi.put(`/user/doReport/${userId}`);
+      const res = await axiosApi.post(`/user/doReport/${userId}`);
     } catch (error) {
       console.error('Error in getSuggestedConnections:', error);
     }

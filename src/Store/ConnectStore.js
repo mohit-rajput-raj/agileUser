@@ -127,7 +127,7 @@ export const useConnectStore = create((set, get) => ({
     getConnections: async () => {
         try {
             set({ connectionsLoading: true, connectionsError: null });
-            const res = await axiosApi.get("/connect/getUserConnections");
+            const res = await axiosApi.get("/connections/getUserConnections");
             set({ connections: res.data });
         } catch (error) {
             console.error("Error in getConnections store:", error);
@@ -140,7 +140,7 @@ export const useConnectStore = create((set, get) => ({
 
     removeConnection: async (userId) => {
         try {
-            await axiosApi.delete(`/connect/removeConnection/${userId}`);
+            await axiosApi.delete(`/connections/removeConnection/${userId}`);
             set((state) => ({
                 connections: state.connections.filter((id) => id !== userId),
             }));

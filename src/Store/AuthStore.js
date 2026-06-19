@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { axiosApi } from "../library/axios.js";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL?.replace(/\/api\/?$/, '') || 'http://localhost:3000';
 
 export const useAuthStore = create((set, get) => ({
   isLogin: false,
@@ -23,7 +23,10 @@ export const useAuthStore = create((set, get) => ({
       set({ currUser: res.data });
     } catch (error) {
       set({ currUser: null });
-      console.error("Error in getUser store:", error);
+      // 401 is expected when user is not logged in — don't log it as an error
+      if (error.response?.status !== 401) {
+        console.error("Error in getUser store:", error);
+      }
     } finally {
       set({ isLogin: false });
     }
